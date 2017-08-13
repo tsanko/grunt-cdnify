@@ -151,6 +151,9 @@ module.exports = function (grunt) {
 
     });
 
+    if (filesCount.js > 0) {
+      grunt.verbose.or.ok('Wrote ' + chalk.cyan(filesCount.js.toString()) + ' JS ' + grunt.util.pluralize(filesCount.js, 'file/files'));
+    }
     if (filesCount.css > 0) {
       grunt.verbose.or.ok('Wrote ' + chalk.cyan(filesCount.css.toString()) + ' CSS ' + grunt.util.pluralize(filesCount.css, 'file/files'));
     }
