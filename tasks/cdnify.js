@@ -95,10 +95,12 @@ module.exports = function (grunt) {
         return grunt.log.warn('Source file ' + chalk.cyan(path.resolve(srcFile)) + ' not found.');
       }
 
-      if (/\.js$/.test(srcFile) && typeof rewriteURL === 'function') {
+      if (/\.js$/.test(srcFile) && typeof rewriteURL !== 'function') {
         // It's a JS file
         var oldJS = grunt.file.read(srcFile),
-            newJS = oldJS.replace(rewriteURL);
+            newJS = options.js ? 
+                oldJS.replace(options.js, function (x){ return rewriteURL + x; }) :
+                oldJS;
 
         grunt.file.write(destFile, newJS);
         grunt.verbose.writeln(chalk.bold('Wrote JS file: ') + chalk.cyan(destFile));
