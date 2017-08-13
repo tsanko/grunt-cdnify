@@ -99,7 +99,7 @@ module.exports = function (grunt) {
         // It's a JS file
         var oldJS = grunt.file.read(srcFile),
             newJS = options.js ? 
-                oldJS.replace(options.js, function (x){ return rewriteURL + x; }) :
+                oldJS.replace(options.js.pattern, function (x){ return rewriteURL + x; }) :
                 oldJS;
 
         grunt.file.write(destFile, newJS);
