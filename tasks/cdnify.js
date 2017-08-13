@@ -47,7 +47,8 @@ module.exports = function (grunt) {
 
     var filesCount = {
         css: 0,
-        html: 0
+        html: 0,
+        js: 0
     };
 
     // Handle HTML selector:attribute settings
@@ -94,7 +95,16 @@ module.exports = function (grunt) {
         return grunt.log.warn('Source file ' + chalk.cyan(path.resolve(srcFile)) + ' not found.');
       }
 
-      if (/\.css$/.test(srcFile)) {
+      if (/\.js$/.test(srcFile) && typeof rewriteURL === 'function') {
+        // It's a JS file
+        var oldJS = grunt.file.read(srcFile),
+            newJS = oldJS.replace(rewriteURL);
+
+        grunt.file.write(destFile, newJS);
+        grunt.verbose.writeln(chalk.bold('Wrote JS file: ') + chalk.cyan(destFile));
+        filesCount.js++;
+          
+      } else if (/\.css$/.test(srcFile)) {
         // It's a CSS file
         var oldCSS = grunt.file.read(srcFile),
             newCSS = options.css ?
@@ -104,6 +114,7 @@ module.exports = function (grunt) {
         grunt.file.write(destFile, newCSS);
         grunt.verbose.writeln(chalk.bold('Wrote CSS file: ') + chalk.cyan(destFile));
         filesCount.css++;
+          
       } else {
         // It's an HTML file
         var oldHTML = grunt.file.read(srcFile),
