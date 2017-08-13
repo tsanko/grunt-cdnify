@@ -25,7 +25,8 @@ function isLocalPath(filePath) {
 // Default options
 var defaults = {
     html: true,
-    css: true
+    css: true,
+    js: true
 };
 
 var htmlDefaults = {
@@ -97,11 +98,13 @@ module.exports = function (grunt) {
 
       if (/\.js$/.test(srcFile) && typeof rewriteURL !== 'function') {
         // It's a JS file
+        grunt.verbose.writeln(chalk.bold('JS pattern: ') + chalk.cyan(options.js.pattern));
+          
         var oldJS = grunt.file.read(srcFile),
             newJS = options.js ? 
                 oldJS.replace(options.js.pattern, function (x){ return rewriteURL + x; }) :
                 oldJS;
-
+          
         grunt.file.write(destFile, newJS);
         grunt.verbose.writeln(chalk.bold('Wrote JS file: ') + chalk.cyan(destFile));
         filesCount.js++;
